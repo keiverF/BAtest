@@ -9,11 +9,39 @@
     <link rel="stylesheet" href="public/js/datepicker/datepicker3.css">
   </head>
   <style type="text/css" media="screen">
-  table {
-  font-size: 12px;
-  }
+      table {
+          font-size: 12px;
+      }
+      #loading{
+          position: fixed;
+          top: 0;
+          right: 0;
+          bottom: 0;
+          left: 0;
+          z-index: 1040;
+          background-color: #0000008a;
+          overflow: hidden !important;
+      }
+      #loading img{
+        position: relative;
+        left: calc(100% - 55%);
+        top: calc(100% - 55%);
+        margin: 0 auto;
+        width: 120px;
+      }
+      #loading p {
+        position: fixed;
+        color: white;
+        top: calc(100% - 55%);
+        left: calc(100% - 53%);        
+        margin: 0 auto;
+      }
   </style>
   <body>
+    <div id="loading" style="display: none">
+      <img src="public/img/loading.gif" alt="loading">
+      <p>Cargando...</p>
+    </div>
     <header>
       <div class="navbar navbar-light bg-light box-shadow fixed-top">
         <div class="container d-flex justify-content-between">
@@ -22,18 +50,20 @@
           </a>
           <ul class="nav justify-content-end ">
             <li class="nav-item">
-              <a class="nav-link active text-dark" href="#">Inicio</a>
+              <a class="nav-link active text-dark" href="#inicio">Inicio</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link text-dark" href="#">Postularse</a>
+              <a class="nav-link text-dark" href="#postularse">Postularse</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link text-dark" href="#">Listado</a>
+              <a class="nav-link text-dark" href="#listado">Listado</a>
             </li>
           </ul>
         </div>
       </div>
     </header>
+<p id="inicio"></p>
+
     <div class="jumbotron mb-0" style="background: url(public/img/header-bg.jpg); background-position: center; background-repeat: no-repeat;background-size: cover; margin-top: 7%">
       <div class="container  text-white" >
         <h1 class="display-5">Gobierno de la Ciudad Autónoma de Buenos Aires</h1>
@@ -65,98 +95,15 @@
     </div>
     <div class="container pt-3">
       <?php  Include("partials/postulanteView.php"); ?>
+      <?php  Include("partials/deletePostuView.php"); ?>
     </div>
   </body>
   <script type="text/javascript" src="public/js/bootstrap.js"></script>
   <script type="text/javascript" src="public/js/jquery.mask.js"></script>
   <script type="text/javascript" src="public/js/datepicker/bootstrap-datepicker.js"></script>
   <script  type="text/javascript" src="public/js/datepicker/locales/bootstrap-datepicker.es.js"></script>
-  <script type="text/javascript">
-    $(document).ready(function() {
-      $('.phone').mask('+0000 0000-0000');
-      $('.dni').mask('000000000000');
-  $('.datepicker').datepicker({
-  format: "dd-mm-yyyy",
-  language: "es",
-  });
-    });
-  // Example starter JavaScript for disabling form submissions if there are invalid fields
-  (function() {
-  'use strict';
-  window.addEventListener('load', function() {
-  // Fetch all the forms we want to apply custom Bootstrap validation styles to
-  var forms = document.getElementsByClassName('needs-validation');
-  // Loop over them and prevent submission
-  var validation = Array.prototype.filter.call(forms, function(form) {
-  form.addEventListener('submit', function(event) {
-  if (form.checkValidity() === false) {
-  event.preventDefault();
-  event.stopPropagation();
-  }
-  form.classList.add('was-validated');
-  }, false);
-  });
-  }, false);
-  })();
-  // This example displays an address form, using the autocomplete feature
-  // of the Google Places API to help users fill in the information.
-  // This example requires the Places library. Include the libraries=places
-  // parameter when you first load the API. For example:
-  // <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places">
-  var placeSearch, autocomplete;
-  var componentForm = {
-  street_number: 'short_name',
-  route: 'long_name',
-  locality: 'long_name',
-  administrative_area_level_1: 'short_name',
-  country: 'long_name',
-  postal_code: 'short_name'
-  };
-  function initAutocomplete() {
-  // Create the autocomplete object, restricting the search to geographical
-  // location types.
-  autocomplete = new google.maps.places.Autocomplete(
-  /** @type {!HTMLInputElement} */(document.getElementById('direccion')),
-  {types: ['geocode']});
-  // When the user selects an address from the dropdown, populate the address
-  // fields in the form.
-  autocomplete.addListener('place_changed', fillInAddress);
-  }
-  function fillInAddress() {
-  // Get the place details from the autocomplete object.
-  var place = autocomplete.getPlace();
-  for (var component in componentForm) {
-  document.getElementById(component).value = '';
-  document.getElementById(component).disabled = false;
-  }
-  // Get each component of the address from the place details
-  // and fill the corresponding field on the form.
-  for (var i = 0; i < place.address_components.length; i++) {
-  var addressType = place.address_components[i].types[0];
-  if (componentForm[addressType]) {
-  var val = place.address_components[i][componentForm[addressType]];
-  document.getElementById(addressType).value = val;
-  }
-  }
-  }
-  // Bias the autocomplete object to the user's geographical location,
-  // as supplied by the browser's 'navigator.geolocation' object.
-  function geolocate() {
-  if (navigator.geolocation) {
-  navigator.geolocation.getCurrentPosition(function(position) {
-  var geolocation = {
-  lat: position.coords.latitude,
-  lng: position.coords.longitude
-  };
-  var circle = new google.maps.Circle({
-  center: geolocation,
-  radius: position.coords.accuracy
-  });
-  autocomplete.setBounds(circle.getBounds());
-  });
-  }
-  }
-  </script>
+  <script type="text/javascript" src="public/js/main.js"></script>
+  <script type="text/javascript" src="public/js/function.js"></script>
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAwyoxuyZwXuxBwuLLiLRp_oqObqhPU46o&libraries=places&callback=initAutocomplete"
   async defer></script>
 </html>
