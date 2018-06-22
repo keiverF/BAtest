@@ -3,9 +3,9 @@
     include "postulanteModel.php";
     class PostulanteFunction
     {
-    	public $_postu;
+    	public $_postuModel;
     	public function __construct(){
-    		$this->_postu = new postulanteModel();
+    		$this->_postuModel = new postulanteModel;
     	}
          //llamar metodo
     	public function getMetodo($name,$array = false){
@@ -14,13 +14,20 @@
     	//cargar lista de postulantes registrados 
     	public function load()
     	{
-             $data = $this->_postu->load();
+             $data = $this->_postuModel->load();
     		return $data;
     	}
-    	public function delete($id){
+    	public function delete($id)
+    	{
             
-            echo $id;
-
+            $respuesta = $this->_postuModel->deleteP($id);
+            if ($respuesta) 
+            {
+            	$msj='Se eliminaron los datos con exito';
+            }else{
+        	    $msj='Ocurio una falla al borrar los datos';        	
+            }
+        	echo json_encode($msj);
     	}
     }
     //instanciar funciones de la clase Postulante function.php
@@ -71,18 +78,21 @@
 
         if ($respuesta)
         {
-        	$msj=['msj'=>'Se guardaron los datos con exito'];
+        	$msj='Se guardaron los datos con exito';
         }else{
-        	$msj=['msj'=>'Ocurio una falla al guardar los datos'];        	
+        	$msj='Ocurio una falla al guardar los datos';        	
         }
         	echo json_encode($msj);
         }
         if($_SERVER['REQUEST_METHOD'] == 'GET') 
         {   
 
+            $action=$_GET['action'];
             $id=$_GET['id'];
-
-            $_postuFunt->getMetodo('delete',$id);
+            if (!empty($action)) {
+            	$_postuFunt->getMetodo($action,$id);
+            }
+            
         }
 
         //retornar datos de los postulantes en lista
