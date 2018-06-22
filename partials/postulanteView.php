@@ -1,5 +1,6 @@
 <?php include("function.php"); ?>
-<form class="needs-validation" action="function.php"  method="post" novalidate>
+<p id="postularse"></p>
+<form id="form-postulante" class="needs-validation form_entrada" action="function.php"  method="post" novalidate>
     <div class="row">
         <div class="col-lg-12 col-md-12 col-12 ">
             <legend>Datos Personales</legend>
@@ -242,44 +243,54 @@
 </form>
 </div>
 <div class="container">
-<div class="table-responsive">
+<p id="listado"></p>
+
+    <div class="row">
+    <div class="table-responsive">
     <table class="table table-hover table-sm">
         <thead>
             <tr>
-                <th scope="col">DNI</th>
-                <th scope="col">Nombres Apellidos</th>
-                <th scope="col">Sexo</th>
-                <th scope="col">Estado Civil</th>
-                <th scope="col">Teléfono</th>
-                <th scope="col">Dirección</th>
-                <th scope="col">Casa de Estudios</th>
-                <th scope="col">Nivel de Estudios</th>
-                <th scope="col">Especialidad</th>
-                <th scope="col">Fecha Estudio</th>
+                <th colspan="2" class="text-center">LISTA DE POSTULANTES</th>
             </tr>
         </thead>
         <tbody>
-
-            <?php if (empty($getPostulantes)){ ?> 
+         <?php if (empty($getPostulantes)){ ?> 
             <tr>
-                <td colspan="10" class="text-center text-danger">No se encontrarón registros</td>
+                <td colspan="2" class="text-center text-danger">No se encontrarón registros</td>
             </tr>
             <?php } ?>
-            <?php  foreach ($getPostulantes as  $value): ?>
-            <tr>
-                <td><?php echo $value['dni']; ?></td>
-                <td><?php echo $value['fullname']; ?></td>
-                <td><?php echo $value['sexo']; ?></td>
-                <td><?php echo $value['estcivil']; ?></td>
-                <td><?php echo $value['telefono']; ?></td>
-                <td><?php echo $value['direccion']; ?></td>
-                <td><?php echo $value['casa_estudios']; ?></td>
-                <td><?php echo $value['nivelEstudios']; ?></td>
-                <td><?php echo $value['especialidad']; ?></td>
-                <td><?php echo $value['fechaEstudio']; ?></td>
-            </tr>
+            <?php  foreach ($getPostulantes as $key =>  $value): ?>
+                <tr><td colspan="2" class="table-dark text-center"><?php echo $key + 1; ?></td></tr>                
+                <tr><th>DNI</th><td><?php echo $value['dni']; ?></td></tr>
+                <tr><th>Nombres Apellidos</th><td><?php echo $value['fullname']; ?></td></tr>
+                <tr><th>Sexo</th><td><?php echo $value['sexo']; ?></td></tr>
+                <tr><th>Estado Civil</th><td><?php echo $value['estcivil']; ?></td></tr>
+                <tr><th>Teléfono</th><td><?php echo $value['telefono']; ?></td></tr>
+                <tr><th>Dirección</th><td><?php echo $value['direccion']; ?></td></tr>
+                <tr><th>Objetivo Laboral</th><td><?php echo $value['objetivo']; ?></td></tr>
+                <tr><th>Empresa</th><td><?php echo $value['empresa']; ?></td></tr>
+                <tr><th>Actividad de Empresa</th><td><?php echo $value['actividad_empresa']; ?></td></tr>
+                <tr><th>Puesto</th><td><?php echo $value['puesto']; ?></td></tr>
+                <tr><th>Nivel</th><td><?php echo $value['nivelLaboral']; ?></td></tr>
+                <tr><th>Fecha</th><td><?php echo $value['fechaLaboral']; ?></td></tr>
+                <tr><th>Área del puesto</th><td><?php echo $value['area_del_puesto']; ?></td></tr>
+                <tr><th>Descripción</th><td><?php echo $value['descripcion']; ?></td></tr>
+                <tr><th>Persona a cargo</th><td><?php echo $value['persona_acargo']; ?></td></tr>
+                <tr><th>Persona referencia</th><td><?php echo $value['persona_referencia']; ?></td></tr>
+                <tr><th>Pais</th><td><?php echo $value['nombre_pais']; ?></td></tr>
+                
+                <tr><th>Casa de Estudios</th><td><?php echo $value['casa_estudios']; ?></td></tr>
+                <tr><th>Nivel de Estudios</th><td><?php echo $value['nivelEstudios']; ?></td></tr>
+                <tr><th>Especialidad</th><td><?php echo $value['especialidad']; ?></td></tr>
+                <tr><th>Fecha Estudio</th><td><?php echo $value['fechaEstudio']; ?></td></tr>
+                <tr><th>Idioma</th><td><?php echo $value['idioma']; ?></td></tr>
+                <tr><th>Oral</th><td><?php echo $value['oral']; ?></td></tr>
+                <tr><th>Escrito</th><td><?php echo $value['escrito']; ?></td></tr>
+                <tr><td colspan="2"><button type="button" class="btn btn-info btn-sm" onclick="DeletePostu(<?php echo $value['idP']; ?>,'<?php echo $value['fullname'];?>');">Eliminar</button></td></tr>
             <?php endforeach; ?>
             
         </tbody>
     </table>
+    </div>
+</div>
 </div>
