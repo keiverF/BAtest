@@ -157,6 +157,43 @@ class postulanteModel {
           
     }
 
+    function deleteP($id){
+        try{
+            $this->_db->beginTransaction();
+
+
+            $Est ="SELECT * FROM postulante_has_estudios WHERE postulante_id_postulante =".$id." ";
+            $idEst= $this->getSql($Est);
+            $query1 = "DELETE FROM estudios WHERE id = ".$idEst[0]['estudios_id_estudios']."";
+            $this->_db->prepare($query1)->execute();
+            
+            $Idim ="SELECT * FROM postulante_has_idioma WHERE postulante_id_postulante =".$id." ";
+            $idIdim= $this->getSql($Idim);
+            $query2 = "DELETE FROM idioma WHERE id = ".$idIdim[0]['idioma_idi_dioma']."";
+            $this->_db->prepare($query2)->execute();
+
+            $Postu ="SELECT * FROM postulante WHERE id =".$id." ";
+            $idPostu= $this->getSql($Postu);
+            $query3 = "DELETE FROM objetivo_laboral WHERE id = ".$idPostu[0]['id_objetivo_laboral']."";
+            $this->_db->prepare($query3)->execute();
+            $query4 = "DELETE FROM experiencia_laboral WHERE id = ".$idPostu[0]['id_experiencia_laboral']."";
+            $this->_db->prepare($query4)->execute();
+            
+            $query5 = "DELETE FROM postulante WHERE id= ".$id."";
+            $this->_db->prepare($query5)->execute();
+
+
+            $this->_db->commit(); 
+
+
+            }catch (Exception $e){
+                    $this->_db->rollBack();
+                    echo "Error :: ".$e->getMessage();
+                    exit();
+            }
+            return true;
+    }
+
 }
 
 ?>
